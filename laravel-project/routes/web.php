@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/register', [UserController::class, 'register'])->name('register');
+Route::get('/login', [UserController::class, 'login'])->name('login');
+
+Route::get('/', [BlogController::class, 'top'])->name('top');
+Route::get('/detail', [BlogController::class, 'detail'])->name('detail');
+
+Route::get('/mypage', [BlogController::class, 'mypage'])->name('mypage');
+Route::get('/my_detail', [BlogController::class, 'my_detail'])->name('my_detail');
+Route::get('/create', [BlogController::class, 'create'])->name('create');
+Route::get('/edit', [BlogController::class, 'edit'])->name('edit');
+
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
