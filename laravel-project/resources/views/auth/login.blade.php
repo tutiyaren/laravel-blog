@@ -18,16 +18,26 @@
                 </h1>
             </div>
 
+            @if ($errors->any())
+            <div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <!-- ログインフォーム -->
-            <form action="" method="post" class="form">
+            <form action="{{ route('signin') }}" method="post" class="form">
                 @csrf
                 <!-- Email -->
                 <div class="form-item">
-                    <input type="email" class="input" name="email" placeholder="Email" value="">
+                    <input type="email" class="input" name="email" placeholder="Email" value="{{ old('email') }}" required>
                 </div>
                 <!-- PS -->
                 <div class="form-item">
-                    <input type="password" class="input" name="password" placeholder="Password" value="">
+                    <input type="password" class="input" name="password" placeholder="Password" required>
                 </div>
                 <!-- ログインボタン -->
                 <div class="form-item">

@@ -17,7 +17,11 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
+Route::post('/signup', [UserController::class, 'signup'])->name('signup');
 Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::post('/signin', [UserController::class, 'signin'])->name('signin');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
 
 Route::get('/', [BlogController::class, 'top'])->name('top');
 Route::get('/detail', [BlogController::class, 'detail'])->name('detail');
@@ -25,6 +29,7 @@ Route::get('/detail', [BlogController::class, 'detail'])->name('detail');
 Route::get('/mypage', [BlogController::class, 'mypage'])->name('mypage');
 Route::get('/my_detail', [BlogController::class, 'my_detail'])->name('my_detail');
 Route::get('/create', [BlogController::class, 'create'])->name('create');
+Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
 Route::get('/edit', [BlogController::class, 'edit'])->name('edit');
 
 

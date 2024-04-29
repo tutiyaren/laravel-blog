@@ -19,23 +19,32 @@
             </div>
 
             <!-- 会員登録フォーム -->
-            <form action="" method="post" class="form">
+            <form action="{{ route('signup') }}" method="post" class="form">
                 @csrf
                 <!-- Name -->
                 <div class="form-item">
-                    <input type="text" class="input" name="name" placeholder="UserName" value="">
+                    <input type="text" class="input" name="name" placeholder="UserName" value="{{ old('name') }}" required>
+                    @error('name')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
                 <!-- Email -->
                 <div class="form-item">
-                    <input type="email" class="input" name="email" placeholder="Email" value="">
+                    <input type="email" class="input" name="email" placeholder="Email" value="{{ old('email') }}" required>
+                    @error('email')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
                 <!-- PS -->
                 <div class="form-item">
-                    <input type="password" class="input" name="password" placeholder="Password" value="">
+                    <input type="password" class="input" name="password" placeholder="Password" required>
+                    @error('password')
+                    <p class="text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
                 <!-- PS確認 -->
                 <div class="form-item">
-                    <input type="password" class="input" name="passwrd_confirm" placeholder="Password確認用" value="">
+                    <input type="password" class="input" name="password_confirmation" placeholder="Password確認用" required>
                 </div>
                 <!-- 作成ボタン -->
                 <div class="form-item">

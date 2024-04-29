@@ -25,7 +25,7 @@
                 <div class="right-mypage">
                     <a href="{{ route('mypage') }}" class="mypage">マイページ</a>
                 </div>
-                <form action="" method="post" class="right-logout">
+                <form action="{{ route('logout') }}" method="post" class="right-logout">
                     @csrf
                     <button type="submit" class="right-logout__button">ログアウト</button>
                 </form>
