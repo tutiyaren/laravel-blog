@@ -27,10 +27,12 @@ Route::get('/', [BlogController::class, 'top'])->name('top');
 Route::get('/detail', [BlogController::class, 'detail'])->name('detail');
 
 Route::get('/mypage', [BlogController::class, 'mypage'])->name('mypage');
-Route::get('/my_detail', [BlogController::class, 'my_detail'])->name('my_detail');
+Route::get('/my_detail/{id}', [BlogController::class, 'my_detail'])->name('my_detail');
 Route::get('/create', [BlogController::class, 'create'])->name('create');
 Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
-Route::get('/edit', [BlogController::class, 'edit'])->name('edit');
+Route::get('/edit/{id}', [BlogController::class, 'edit'])->name('edit');
+Route::put('/update', [BlogController::class, 'update'])->name('update');
+Route::delete('/destroy', [BlogController::class, 'destroy'])->name('destroy');
 
 
 

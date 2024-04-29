@@ -5,18 +5,19 @@
 <div class="main">
     <!-- 対象のマイBlog詳細タイトル -->
     <div class="ttl">
-        <h2 class="ttl-page">対象タイトル</h2>
+        <h2 class="ttl-page">{{ $myBlog->title }}</h2>
     </div>
     <!-- 対象のマイBlog詳細内容 -->
     <div class="detail">
-        <p class="detail-created">2015-12-12 17:47:52</p>
-        <p class="detail-text">内容すべて表示</p>
+        <p class="detail-created">{{ $myBlog->created_at }}</p>
+        <p class="detail-text">{{ $myBlog->contents }}</p>
         <div class="detail-edit">
-            <a href="{{ route('edit') }}" class="detail-edit__link">編集</a>
+            <a href="{{ route('edit', ['id' => $myBlog->id]) }}" class="detail-edit__link">編集</a>
         </div>
-        <form action="" method="post" class="detail-delete">
+        <form action="{{ route('destroy') }}" method="post" class="detail-delete">
             @method('delete')
             @csrf
+            <input type="hidden" name="id" value="{{ $myBlog->id }}">
             <button type="submit" class="detail-delete button">削除</button>
         </form>
         <div class="detail-top">

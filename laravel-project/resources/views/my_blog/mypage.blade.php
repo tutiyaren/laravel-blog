@@ -14,14 +14,16 @@
     <!-- マイblog一覧 -->
     <div class="blog">
         <!-- foreach -->
+        @foreach($myBlogs as $myBlog)
         <div class="blog-item">
-            <h3 class="blog-item__ttl">タイトル</h3>
-            <p class="blog-item__created">2024-05-02 15:48:12</p>
-            <p class="blog-item__text">内容15文字まで...</p>
+            <h3 class="blog-item__ttl">{{ $myBlog->title }}</h3>
+            <p class="blog-item__created">{{ $myBlog->created_at }}</p>
+            <p class="blog-item__text">{{ strlen($myBlog->contents) > 15 ? substr($myBlog->contents, 0, 15) . '...' : $myBlog->contents }}</p>
             <div class="blog-item__detail">
-                <a href="{{ route('my_detail') }}" class="blog-item__detail-link">記事詳細へ</a>
+                <a href="{{ route('my_detail', ['id' => $myBlog->id]) }}" class="blog-item__detail-link">記事詳細へ</a>
             </div>
         </div>
+        @endforeach
     </div>
 </div>
 

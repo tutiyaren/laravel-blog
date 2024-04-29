@@ -20,12 +20,15 @@ class BlogController extends Controller
 
     public function mypage()
     {
-        return view('my_blog.mypage');
+        $userId = auth()->user()->id;
+        $myBlogs = Blog::where('user_id', $userId)->get();
+        return view('my_blog.mypage', compact('myBlogs'));
     }
 
-    public function my_detail()
+    public function my_detail($id)
     {
-        return view('my_blog.my_detail');
+        $myBlog = Blog::find($id);
+        return view('my_blog.my_detail', compact('myBlog'));
     }
 
     public function create()
@@ -47,8 +50,30 @@ class BlogController extends Controller
         return redirect()->route('mypage');
     }
 
-    public function edit()
+    public function edit($id)
     {
-        return view('my_blog.edit');
+        $myBlog = Blog::find($id);
+        return view('my_blog.edit', compact('myBlog'));
+    }
+
+    public function update(BlogRequest $request)
+    {
+        $id = $request->input('id');
+        $title = $request->input('title');
+        $contents = $request->input('contents');
+        $blog = Blog::find($id);
+        $blog->title = $title;
+        $blog->contents = $contents;
+
+        $blog->save();
+
+        return redirect()->route('my_detail', ['id' => $id]);
+    }
+
+    public function destroy(Request $request)
+    {
+        $id = $request->input('id');
+        Blog::find($id)->delete();
+        return redirect()->route('mypage');
     }
 }
