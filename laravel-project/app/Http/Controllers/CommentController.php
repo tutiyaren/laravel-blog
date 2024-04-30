@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     public function store(CommentRequest $request, $id, CreateCommentUseCase $case)
     {
-        $case($request);
+        $case($request, $id);
         return redirect()->route('detail', ['id' => $id]);
     }
 }
