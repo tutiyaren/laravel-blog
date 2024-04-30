@@ -5,17 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
+use App\Models\Comment;
 
 class BlogController extends Controller
 {
-    public function top()
+    public function top(Request $request)
     {
-        return view('blog.top');
+        $keyword = $request->input('keyword');
+        $sort = $request->input('sort');
+
+        $searchBlogs = Blog::query();
+        if ($keyword) {
+            $searchBlogs->where('title', 'like', '%' . $keyword . '%')
+                ->orWhere('contents', 'like', '%' . $keyword . '%');
+        }
+
+        if ($sort === 'new') {
+            $searchBlogs->orderBy('created_at', 'desc');
+        } 
+        if ($sort === 'old') {
+            $searchBlogs->orderBy('created_at', 'asc');
+        }
+
+        $blogs = $searchBlogs->get();
+        return view('blog.top', compact('blogs'));
     }
 
-    public function detail()
+    public function detail($id)
     {
-        return view('blog.detail');
+        $blog = Blog::find($id);
+        $comments = Comment::where('blog_id', $id)->get();
+        return view('blog.detail', compact('blog', 'comments'));
     }
 
     public function mypage()
