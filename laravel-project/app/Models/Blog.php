@@ -24,4 +24,24 @@ class Blog extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function scopeSearch($query, $keyword)
+    {
+        if ($keyword) {
+            return $query->where('title', 'like', '%' . $keyword . '%')
+                ->orWhere('contents', 'like', '%' . $keyword . '%');
+        }
+        return $query;
+    }
+
+    public function scopeSort($query, $sort)
+    {
+        if ($sort === 'new') {
+            return $query->orderBy('created_at', 'desc');
+        }
+        if ($sort === 'old') {
+            return $query->orderBy('created_at', 'asc');
+        }
+        return $query;
+    }
 }

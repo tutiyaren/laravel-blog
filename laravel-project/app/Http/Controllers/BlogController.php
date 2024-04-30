@@ -1,53 +1,42 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use App\Models\Comment;
+use App\UseCase\CreateBlogUseCase;
+use App\UseCase\DeleteBlogUseCase;
+use App\UseCase\EditBlogUseCase;
+use App\UseCase\GetEditBlogUseCase;
+use App\UseCase\GetMypageUseCase;
+use App\UseCase\GetMypageDetailUseCase;
+use App\UseCase\GetDetailUseCase;
+use App\UseCase\GetAllBlogUseCase;
+
 
 class BlogController extends Controller
 {
-    public function top(Request $request)
+    public function top(Request $request, GetAllBlogUseCase $case)
     {
-        $keyword = $request->input('keyword');
-        $sort = $request->input('sort');
-
-        $searchBlogs = Blog::query();
-        if ($keyword) {
-            $searchBlogs->where('title', 'like', '%' . $keyword . '%')
-                ->orWhere('contents', 'like', '%' . $keyword . '%');
-        }
-
-        if ($sort === 'new') {
-            $searchBlogs->orderBy('created_at', 'desc');
-        } 
-        if ($sort === 'old') {
-            $searchBlogs->orderBy('created_at', 'asc');
-        }
-
-        $blogs = $searchBlogs->get();
-        return view('blog.top', compact('blogs'));
+        $item = $case($request);
+        return view('blog.top', $item);
     }
 
-    public function detail($id)
+    public function detail($id, GetDetailUseCase $case)
     {
-        $blog = Blog::find($id);
-        $comments = Comment::where('blog_id', $id)->get();
-        return view('blog.detail', compact('blog', 'comments'));
+        $data = $case($id);
+        return view('blog.detail', $data);
     }
 
-    public function mypage()
+    public function mypage(GetMypageUseCase $case)
     {
-        $userId = auth()->user()->id;
-        $myBlogs = Blog::where('user_id', $userId)->get();
+        $myBlogs = $case();
         return view('my_blog.mypage', compact('myBlogs'));
     }
 
-    public function my_detail($id)
+    public function my_detail($id, GetMypageDetailUseCase $case)
     {
-        $myBlog = Blog::find($id);
+        $myBlog = $case($id);
         return view('my_blog.my_detail', compact('myBlog'));
     }
 
@@ -55,45 +44,28 @@ class BlogController extends Controller
     {
         return view('my_blog.create');
     }
-    public function store(BlogRequest $request)
+    public function store(BlogRequest $request, CreateBlogUseCase $case)
     {
-        $title = $request->input('title');
-        $contents = $request->input('contents');
-
-        $blog = new Blog();
-        $blog->user_id = auth()->user()->id;
-        $blog->title = $title;
-        $blog->contents = $contents;
-
-        $blog->save();
-
+        $case($request);
         return redirect()->route('mypage');
     }
 
-    public function edit($id)
+    public function edit($id, GetEditBlogUseCase $case)
     {
-        $myBlog = Blog::find($id);
+        $myBlog = $case($id);
         return view('my_blog.edit', compact('myBlog'));
     }
 
-    public function update(BlogRequest $request)
+    public function update(BlogRequest $request, EditBlogUseCase $case)
     {
         $id = $request->input('id');
-        $title = $request->input('title');
-        $contents = $request->input('contents');
-        $blog = Blog::find($id);
-        $blog->title = $title;
-        $blog->contents = $contents;
-
-        $blog->save();
-
+        $case($request, $id);
         return redirect()->route('my_detail', ['id' => $id]);
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, DeleteBlogUseCase $case)
     {
-        $id = $request->input('id');
-        Blog::find($id)->delete();
+        $case($request);
         return redirect()->route('mypage');
     }
 }

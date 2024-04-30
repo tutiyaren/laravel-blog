@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\UseCase\SignUpUseCase;
+use App\UseCase\SignInUseCase;
+use App\UseCase\LogoutUseCase;
 
 class UserController extends Controller
 {
@@ -15,14 +18,9 @@ class UserController extends Controller
         return view('auth.register');
     }
 
-    public function signup(UserRequest $request)
+    public function signup(UserRequest $request, SignUpUseCase $case)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-
+        $case($request);
         return redirect()->route('login');
     }
 
@@ -31,23 +29,20 @@ class UserController extends Controller
         return view('auth.login');
     }
 
-    public function signin(Request $request)
+    public function signin(Request $request, SignInUseCase $case)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $result = $case($request);
+        if ($result) {
             return redirect()->route('top');
         }
-
         return back()->withErrors([
             'email' => 'メールアドレスまたはパスワードが間違っています。',
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request, LogoutUseCase $case)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
+        $case($request);
         return redirect()->route('login');
     }
 }
