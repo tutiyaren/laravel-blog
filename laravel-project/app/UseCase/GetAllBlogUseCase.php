@@ -9,7 +9,7 @@ class GetAllBlogUseCase
     {
         $keyword = $request->input('keyword');
         $sort = $request->input('sort');
-        $blogs = Blog::search($keyword)->sort($sort)->get();
+        $blogs = Blog::where('status', '!==', 1)->search($keyword)->sort($sort)->get();
         return compact('blogs');
     }
 }

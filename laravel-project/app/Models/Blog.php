@@ -8,6 +8,7 @@ use App\Domain\ValueObject\Blog\Id;
 use App\Domain\ValueObject\Blog\UserId;
 use App\Domain\ValueObject\Blog\Title;
 use App\Domain\ValueObject\Blog\Contents;
+use App\Domain\ValueObject\Blog\Status;
 
 class Blog extends Model
 {
@@ -16,7 +17,8 @@ class Blog extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'contents'
+        'contents',
+        'status'
     ];
 
     public function user()
@@ -84,5 +86,14 @@ class Blog extends Model
     public function getContentsAttribute($value)
     {
         return $value instanceof Contents ? $value->value() : $value;
+    }
+    // status
+    public function setStatusAttribute($value)
+    {
+        $this->attributes['status'] = new Status($value);
+    }
+    public function getStatusAttribute($value)
+    {
+        return $value instanceof Status ? $value->value() : $value;
     }
 }

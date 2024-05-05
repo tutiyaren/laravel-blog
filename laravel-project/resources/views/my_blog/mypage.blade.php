@@ -19,8 +19,17 @@
             <h3 class="blog-item__ttl">{{ $myBlog->title }}</h3>
             <p class="blog-item__created">{{ $myBlog->created_at }}</p>
             <p class="blog-item__text">{{ strlen($myBlog->contents) > 15 ? substr($myBlog->contents, 0, 15) . '...' : $myBlog->contents }}</p>
-            <div class="blog-item__detail">
-                <a href="{{ route('my_detail', ['id' => $myBlog->id]) }}" class="blog-item__detail-link">記事詳細へ</a>
+            <div class="blog-item__detail" style="display: flex;">
+                <div style="margin-right: 5%;">
+                    <a href="{{ route('my_detail', ['id' => $myBlog->id]) }}" class="blog-item__detail-link">記事詳細へ</a>
+                </div>
+                <form action="{{ route('toggle', $myBlog->id) }}" method="post">
+                    @method('put')
+                    @csrf
+                    <button type="submit">
+                        {{ $myBlog->status === 0 ? '公開' : '非公開' }}
+                    </button>
+                </form>
             </div>
         </div>
         @endforeach

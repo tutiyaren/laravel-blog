@@ -27,7 +27,6 @@ Route::group(['middleware' => 'auth'],function () {
     Route::get('/detail/{id}', [BlogController::class, 'detail'])->name('detail');
     Route::post('/comment/store/{id}', [CommentController::class, 'store'])->name('comment.store');
 
-
     Route::get('/mypage', [BlogController::class, 'mypage'])->name('mypage');
     Route::get('/my_detail/{id}', [BlogController::class, 'my_detail'])->name('my_detail');
     Route::get('/create', [BlogController::class, 'create'])->name('create');
@@ -35,6 +34,7 @@ Route::group(['middleware' => 'auth'],function () {
     Route::get('/edit/{id}', [BlogController::class, 'edit'])->name('edit');
     Route::put('/update', [BlogController::class, 'update'])->name('update');
     Route::delete('/destroy', [BlogController::class, 'destroy'])->name('destroy');
+    Route::put('/toggle/{id}', [BlogController::class, 'toggle'])->name('toggle');
 });
 
 

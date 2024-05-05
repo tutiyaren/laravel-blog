@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
-use App\Models\Comment;
 use App\UseCase\CreateBlogUseCase;
 use App\UseCase\DeleteBlogUseCase;
 use App\UseCase\EditBlogUseCase;
@@ -12,6 +11,7 @@ use App\UseCase\GetMypageUseCase;
 use App\UseCase\GetMypageDetailUseCase;
 use App\UseCase\GetDetailUseCase;
 use App\UseCase\GetAllBlogUseCase;
+use App\UseCase\EditStatusUseCase;
 
 
 class BlogController extends Controller
@@ -66,6 +66,12 @@ class BlogController extends Controller
     public function destroy(Request $request, DeleteBlogUseCase $case)
     {
         $case($request);
+        return redirect()->route('mypage');
+    }
+
+    public function toggle($id, EditStatusUseCase $case)
+    {
+        $case($id);
         return redirect()->route('mypage');
     }
 }

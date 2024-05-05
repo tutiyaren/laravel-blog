@@ -18,6 +18,7 @@ class CreateBlogsTable extends Migration
             $table->integer('user_id');
             $table->string('title', 255);
             $table->string('contents', 255);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
