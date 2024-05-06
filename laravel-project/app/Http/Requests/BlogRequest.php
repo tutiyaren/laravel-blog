@@ -25,7 +25,7 @@ class BlogRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'contents' => 'max:255'
+            'contents' => 'required|max:255'
         ];
     }
 
@@ -35,6 +35,7 @@ class BlogRequest extends FormRequest
             'title.required' => 'タイトルを入力してください。',
             'title.string' => 'タイトルを文字列で入力してください。',
             'title.max' => 'タイトルを255文字以内で入力してください。',
+            'contents.required' => '内容を入力してください。',
             'contents.max' => '内容を255文字以内で入力してください。',
         ];
     }

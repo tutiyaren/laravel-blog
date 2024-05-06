@@ -30,8 +30,21 @@
             <h3 class="blog-item__ttl">{{ $blog->title }}</h3>
             <p class="blog-item__created">{{ $blog->created_at }}</p>
             <p class="blog-item__text">{{ strlen($blog->contents) > 15 ? substr($blog->contents, 0, 15) . '...' : $blog->contents }}</p>
-            <div class="blog-item__detail">
-                <a href="{{ route('detail', $blog->id) }}" class="blog-item__detail-link">記事詳細へ</a>
+            <div class="blog-item__detail" style="display: flex;">
+                <div style="margin-right: 5%;">
+                    <a href="{{ route('detail', $blog->id) }}" class="blog-item__detail-link">記事詳細へ</a>
+                </div>
+                <form action="{{ route('favorite', $blog->id) }}" method="post">
+                    @csrf
+                    <button type="submit" style="border: none; background-color: white;">
+                        @if ($favoriteExists[$blog->id])
+                        <i class="fa-solid fa-star" style="color: yellowgreen;"></i>
+                        @endif
+                        @if (!($favoriteExists[$blog->id]))
+                        <i class="fa-solid fa-star" style="color: gray;"></i>
+                        @endif
+                    </button>
+                </form>
             </div>
         </div>
         @endforeach
