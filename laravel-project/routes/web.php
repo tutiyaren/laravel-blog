@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavoriteController;
 
@@ -37,6 +38,9 @@ Route::group(['middleware' => 'auth'],function () {
     Route::delete('/destroy', [BlogController::class, 'destroy'])->name('destroy');
     Route::put('/toggle/{id}', [BlogController::class, 'toggle'])->name('toggle');
     Route::post('/favorite/{id}', [FavoriteController::class, 'favorite'])->name('favorite');
+
+    Route::get('/bookmark', [BookmarkController::class, 'bookmark'])->name('getBookmark');
+    Route::post('/bookmark/{id}', [BookmarkController::class, 'checkBookmark'])->name('bookmark');
 });
 
 

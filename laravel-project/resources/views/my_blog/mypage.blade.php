@@ -7,6 +7,10 @@
     <div class="ttl">
         <h2 class="ttl-page">マイページ</h2>
     </div>
+    <!-- ブックマークしたページへ遷移 -->
+    <div>
+        <a href="{{ route('getBookmark') }}">ブックマーク</a>
+    </div>
     <!-- createへ遷移 -->
     <div class="create">
         <a href="{{ route('create') }}" class="create-link">新規作成</a>

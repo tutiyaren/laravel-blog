@@ -2,6 +2,7 @@
 namespace App\UseCase;
 use App\Models\Blog;
 use App\Models\Favorite;
+use App\Models\Bookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,15 @@ class GetAllBlogUseCase
 
             $favoriteExists[$blog->id] = $exists;
         }
-        return compact('blogs', 'favoriteExists');
+
+        $bookmarkExists = [];
+        foreach ($blogs as $blog) {
+            $exists = Bookmark::where('user_id', Auth::id())
+                ->where('blog_id', $blog->id)
+                ->exists();
+
+            $bookmarkExists[$blog->id] = $exists;
+        }
+        return compact('blogs', 'favoriteExists', 'bookmarkExists');
     }
 }

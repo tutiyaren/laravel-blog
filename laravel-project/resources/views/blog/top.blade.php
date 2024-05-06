@@ -34,7 +34,7 @@
                 <div style="margin-right: 5%;">
                     <a href="{{ route('detail', $blog->id) }}" class="blog-item__detail-link">記事詳細へ</a>
                 </div>
-                <form action="{{ route('favorite', $blog->id) }}" method="post">
+                <form action="{{ route('favorite', $blog->id) }}" method="post" style="margin-right: 5%;">
                     @csrf
                     <button type="submit" style="border: none; background-color: white;">
                         @if ($favoriteExists[$blog->id])
@@ -42,6 +42,17 @@
                         @endif
                         @if (!($favoriteExists[$blog->id]))
                         <i class="fa-solid fa-star" style="color: gray;"></i>
+                        @endif
+                    </button>
+                </form>
+                <form action="{{ route('bookmark', $blog->id) }}" method="post">
+                    @csrf
+                    <button type="submit" style="border: none; background-color: white;">
+                        @if ($bookmarkExists[$blog->id])
+                        <i class="fa-solid fa-bookmark" style="color: blue;"></i>
+                        @endif
+                        @if (!($bookmarkExists[$blog->id]))
+                        <i class="fa-solid fa-bookmark" style="color: gray;"></i>
                         @endif
                     </button>
                 </form>
