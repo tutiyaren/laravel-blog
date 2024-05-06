@@ -2,39 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Bookmark;
-use Illuminate\Support\Facades\Auth;
+use App\UseCase\BookmarkUseCase;
+use App\UseCase\GetBookmarkUseCase;
 
 class BookmarkController extends Controller
 {
-    public function bookmark()
+    public function bookmark(GetBookmarkUseCase $case)
     {
         $userId = auth()->user()->id;
-        $userBookmarks = Bookmark::where('user_id', $userId)->get();
-        $bookmarkExists = [];
-        foreach ($userBookmarks as $bookmark) {
-            $bookmarkExists[$bookmark->blog_id] = true;
-        }
-        $bookmarks = Blog::whereIn('id', array_keys($bookmarkExists))->get();
-        return view('my_blog.bookmark', compact('bookmarks', 'bookmarkExists'));
+        $item = $case($userId);
+        return view('my_blog.bookmark', $item);
     }
 
-    public function checkBookmark($id)
+    public function checkBookmark($id, BookmarkUseCase $case)
     {
         $userId = auth()->user()->id;
-        $bookmark = Bookmark::where('user_id', $userId)
-            ->where('blog_id', $id)
-            ->first();
-        if ($bookmark) {
-            $bookmark->delete();
-            return redirect()->back();
-        }
-        $bookmarkModel = new Bookmark();
-        $bookmarkModel->user_id = $userId;
-        $bookmarkModel->blog_id = $id;
-        $bookmarkModel->save();
+        $case($userId, $id);
         return redirect()->back();
     }
 }
