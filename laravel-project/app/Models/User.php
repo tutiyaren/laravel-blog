@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Domain\ValueObject\User\Id;
+use App\Domain\ValueObject\User\Name;
+use App\Domain\ValueObject\User\Email;
+use App\Domain\ValueObject\User\Password;
+use App\Domain\ValueObject\User\InputPassword;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -41,4 +46,54 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    // id
+    public function setIdAttribute($value)
+    {
+        $this->attributes['id'] = new Id($value);
+    }
+    public function getIdAttribute($value)
+    {
+        return $value instanceof Id ? $value->value() : $value;
+    }
+    // name
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = new Name($value);
+    }
+    public function getNameAttribute($value)
+    {
+        return $value instanceof Name ? $value->value() : $value;
+    }
+    // email
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = new Email($value);
+    }
+    public function getEmailAttribute($value)
+    {
+        return $value instanceof Email ? $value->value() : $value;
+    }
+    // inputPassword
+    public function setInputPasswordAttribute($value)
+    {
+        $this->attributes['password'] = new InputPassword($value);
+    }
+    public function getInputPasswordAttribute($value)
+    {
+        return $value instanceof InputPassword ? $value->value() : $value;
+    }
 }
