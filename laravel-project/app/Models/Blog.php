@@ -36,6 +36,11 @@ class Blog extends Model
         return $this->hasMany(Favorite::class);
     }
 
+    public function blog_categories()
+    {
+        return $this->hasMany(Blog_category::class, 'blog_id');
+    }
+
     public function scopeSearch($query, $keyword)
     {
         if ($keyword) {

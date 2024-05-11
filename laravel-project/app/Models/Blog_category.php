@@ -13,4 +13,14 @@ class Blog_category extends Model
         'category_id',
         'blog_id'
     ];
+
+    public function blog()
+    {
+        return $this->belongsTo(Blog::class, 'blog_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

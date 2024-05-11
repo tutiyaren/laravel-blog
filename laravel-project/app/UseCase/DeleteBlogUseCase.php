@@ -7,7 +7,9 @@ class DeleteBlogUseCase
 {
     public function __invoke(Request $request)
     {
-        $id = $request->input('id');
-        Blog::find($id)->delete();
+        $blogId = $request->input('id');
+        $blog = Blog::find($blogId);
+        $blog->blog_categories()->delete();
+        $blog->delete();
     }
 }

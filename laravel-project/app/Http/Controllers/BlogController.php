@@ -12,6 +12,7 @@ use App\UseCase\GetMypageDetailUseCase;
 use App\UseCase\GetDetailUseCase;
 use App\UseCase\GetAllBlogUseCase;
 use App\UseCase\EditStatusUseCase;
+use App\UseCase\GetCreateBlog;
 
 
 class BlogController extends Controller
@@ -40,9 +41,10 @@ class BlogController extends Controller
         return view('my_blog.my_detail', compact('myBlog'));
     }
 
-    public function create()
+    public function create(GetCreateBlog $case)
     {
-        return view('my_blog.create');
+        $categories = $case();
+        return view('my_blog.create', compact('categories'));
     }
     public function store(BlogRequest $request, CreateBlogUseCase $case)
     {
@@ -52,8 +54,8 @@ class BlogController extends Controller
 
     public function edit($id, GetEditBlogUseCase $case)
     {
-        $myBlog = $case($id);
-        return view('my_blog.edit', compact('myBlog'));
+        list($myBlog, $categories) = $case($id);
+        return view('my_blog.edit', compact('myBlog', 'categories'));
     }
 
     public function update(BlogRequest $request, EditBlogUseCase $case)

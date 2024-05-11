@@ -11,6 +11,10 @@
     <div>
         <a href="{{ route('getBookmark') }}">ブックマーク</a>
     </div>
+    <!-- カテゴリ一覧ページへ遷移 -->
+    <div>
+        <a href="{{ route('category.index') }}">カテゴリ一覧ページへ</a>
+    </div>
     <!-- createへ遷移 -->
     <div class="create">
         <a href="{{ route('create') }}" class="create-link">新規作成</a>
@@ -20,7 +24,14 @@
         <!-- foreach -->
         @foreach($myBlogs as $myBlog)
         <div class="blog-item">
-            <h3 class="blog-item__ttl">{{ $myBlog->title }}</h3>
+            <div style="display: flex;">
+                <h4 class="blog-item__category" style="color: purple;">
+                    @foreach($myBlog->blog_categories as $blog_category)
+                    {{ $blog_category->category->name }}
+                    @endforeach
+                </h4>
+                <h3 class="blog-item__ttl" style="margin-left: 5%;">{{ $myBlog->title }}</h3>
+            </div>
             <p class="blog-item__created">{{ $myBlog->created_at }}</p>
             <p class="blog-item__text">{{ strlen($myBlog->contents) > 15 ? substr($myBlog->contents, 0, 15) . '...' : $myBlog->contents }}</p>
             <div class="blog-item__detail" style="display: flex;">
