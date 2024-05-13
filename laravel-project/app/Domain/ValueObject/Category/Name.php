@@ -1,10 +1,10 @@
 <?php
-namespace App\Domain\ValueObject\User;
+namespace App\Domain\ValueObject\Category;
 use Exception;
 
 final class Name
 {
-    const INVALID_MESSAGE = 'ユーザー名は255文字以下でお願いします!';
+    const INVALID_MESSAGE = 'categoryは255文字以内でお願いします';
 
     private $value;
 

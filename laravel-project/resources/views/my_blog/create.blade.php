@@ -11,14 +11,21 @@
     <div class="blog">
         <form action="{{ route('blog.store') }}" method="post" class="blog-form">
             @csrf
+            <p>Category</p>
+            <select name="name" required>
+                <option disabled selected value="">カテゴリを選択してください</option>
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
             <p class="blog-form__ttl">タイトル</p>
             @error('title')
-                <p style="color: red;">{{ $message }}</p>
+            <p style="color: red;">{{ $message }}</p>
             @enderror
             <input type="text" name="title" value="{{ old('title') }}" class="blog-form__ttl-input">
             <p class="blog-form__text">内容</p>
             @error('contents')
-                <p style="color: red;">{{ $message }}</p>
+            <p style="color: red;">{{ $message }}</p>
             @enderror
             <textarea name=" contents" cols="30" rows="10" class="blog-form__textarea">{{ old('contents') }}</textarea>
             <div class="blog-form__submit">

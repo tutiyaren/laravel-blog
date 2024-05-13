@@ -13,7 +13,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,16 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string|max:255'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'カテゴリ名を入力してください',
+            'name.string' => 'カテゴリ名を文字列で入力してください',
+            'name.max' => 'カテゴリ名を255文字以内で入力してください',
         ];
     }
 }

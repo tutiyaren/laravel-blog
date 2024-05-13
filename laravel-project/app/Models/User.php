@@ -59,6 +59,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Favorite::class);
     }
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'category_id');
+    }
 
     // id
     public function setIdAttribute($value)

@@ -5,6 +5,9 @@
 <div class="main">
     <!-- 対象のマイBlog詳細タイトル -->
     <div class="ttl">
+        @if(isset($myBlog->blog_categories->first()->category->name))
+        <h3 style="color: purple;">{{ $myBlog->blog_categories->first()->category->name }}</h3>
+        @endif
         <h2 class="ttl-page">{{ $myBlog->title }}</h2>
     </div>
     <!-- 対象のマイBlog詳細内容 -->

@@ -27,7 +27,14 @@
         <!-- foreach -->
         @foreach($blogs as $blog)
         <div class="blog-item">
-            <h3 class="blog-item__ttl">{{ $blog->title }}</h3>
+            <div style="display: flex;">
+                <h4 class="blog-item__category" style="color: purple;">
+                    @foreach($blog->blog_categories as $blog_category)
+                    {{ $blog_category->category->name }}
+                    @endforeach
+                </h4>
+                <h3 class="blog-item__ttl" style="margin-left: 5%;">{{ $blog->title }}</h3>
+            </div>
             <p class="blog-item__created">{{ $blog->created_at }}</p>
             <p class="blog-item__text">{{ strlen($blog->contents) > 15 ? substr($blog->contents, 0, 15) . '...' : $blog->contents }}</p>
             <div class="blog-item__detail" style="display: flex;">

@@ -1,7 +1,7 @@
 <?php
-namespace App\Domain\ValueObject\Comment;
+namespace App\Domain\ValueObject\BlogCategory;
 
-final class BlogId
+final class CategoryId
 {
     private $value;
 
