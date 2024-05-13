@@ -27,7 +27,7 @@ final class Email
         return !preg_match(self::EMAIL_REGULAR_EXPRESSIONS, $value);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }

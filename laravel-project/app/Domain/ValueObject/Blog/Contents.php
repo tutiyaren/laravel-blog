@@ -26,7 +26,7 @@ final class Contents
         return mb_strlen($value) > 255;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }
